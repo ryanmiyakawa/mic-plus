@@ -1,0 +1,4 @@
+Timestamp, Posix time (ms), Elapsed Time (ms), message1, message2
+2023-11-13 12:00:32,1699876832568,0, test1, test2
+2023-11-13 12:00:34,1699876834578,2010, test3, test5
+2023-11-13 12:00:37,1699876837603,3025, test5, test6
