@@ -4,7 +4,7 @@ classdef Log < mic.ui.common.Base
     properties
         cLogDirectory
         cLogName
-        
+        cLogPath
     end
     
     methods
@@ -22,6 +22,7 @@ classdef Log < mic.ui.common.Base
         function writeLine(this, ceLogElements, isHeader)
             
             logPath = fullfile(this.cLogDirectory, [this.cLogName '.csv']);
+            this.cLogPath = logPath;
             
             nl = java.lang.System.getProperty('line.separator').char;
             
@@ -31,12 +32,12 @@ classdef Log < mic.ui.common.Base
             
             fopenTag = 'a';
             
-            fid = fopen(logPath, fopenTag);
+            fid = fopen(this.cLogPath, fopenTag);
             
             if isHeader
-                str = 'Timestamp, Posix time (ms)';
+                str = 'Timestamp, Posixtime_ms';
             else
-                str = [datestr(now, 31) ',' sprintf('%d', Log.getPosixTimeMs()) ];
+                str = [datestr(now, 31) ',' sprintf('%d', micPlus.Log.getPosixTimeMs()) ];
             end
             
             if iscell(ceLogElements)
@@ -60,6 +61,23 @@ classdef Log < mic.ui.common.Base
             fclose(fid);
             
         end
+        
+        function appendElapsedTime(this)
+            % Read the CSV file
+            data = readtable(this.cLogPath);
+            
+            % Calculate elapsed time
+            posixTimes = data.Posixtime_ms; % Adjusted for your column name
+            elapsedTimes = [diff(posixTimes); 0]/1000; % Last row has no previous timestamp
+            
+            % Add elapsed time to the table
+            data.ElapsedTime_s = elapsedTimes;
+            
+            % Write the modified table to a new CSV file
+            writetable(data, this.cLogPath);
+            
+        end
+        
     end
     
     methods (Static)
@@ -70,6 +88,8 @@ classdef Log < mic.ui.common.Base
             totalSeconds = seconds(timeSinceEpoch);
             posixTimeMilliseconds = int64(totalSeconds * 1000);
         end
+        
+        
         
     end
 end
