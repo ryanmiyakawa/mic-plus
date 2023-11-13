@@ -1,0 +1,11 @@
+mpm addpath ../..
+addpath('..');
+
+cLogDirectory = fullfile(fileparts(mfilename('fullpath')), '..', 'logs');
+cLogName = sprintf('MET-FEM-%s', datestr(now,30));
+ceHeaders = {'message1', 'message2'};
+
+hLog = Log(cLogDirectory, cLogName, ceHeaders);
+
+
+hLog.writeLine({})

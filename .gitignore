@@ -1,0 +1,4 @@
+mpm-packages
+mpm-packages/*
+src/tests/logs
+src/tests/logs*

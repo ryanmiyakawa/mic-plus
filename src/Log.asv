@@ -1,0 +1,26 @@
+classdef Log < mic.ui.common.Base
+   
+    
+    properties
+        cLogDirectory
+    end
+    
+    methods
+        function this = Log(cLogDirectory, cLogName, ceHeaders)
+            this.cLogDirectory = cLogDirectory;
+            this.cLogName = cLogName;
+            
+            if isempty(dir(sFileName)) % doesn't exist
+                this.writeLog(sFileName, this.ceHeaders, true);
+            end
+            
+        end
+        
+        function outputArg = method1(obj,inputArg)
+            %METHOD1 Summary of this method goes here
+            %   Detailed explanation goes here
+            outputArg = obj.Property1 + inputArg;
+        end
+    end
+end
+
